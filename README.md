@@ -12,9 +12,15 @@ One prompt that sets up a Mac with:
 1. Open Claude Code.
 2. Paste this:
 
-   > Follow the instructions in https://github.com/kuttipulli/dia-notion-setup/blob/main/SETUP.md to set up my computer.
+   ```text
+   I'm not a technical person and I don't use the terminal, so explain each step in plain English and tell me exactly what to click when you need me.
 
-3. Follow along. Claude Code does the work and stops whenever it needs you to click something, sign in, or approve a permission. It never asks for your passwords.
+   Download this file with curl and read the whole thing before you start: https://raw.githubusercontent.com/kuttipulli/dia-notion-setup/main/SETUP.md
+
+   Then follow its instructions to set up my computer.
+   ```
+
+3. Follow along. Claude Code does the work and stops whenever it needs you to click something, sign in, or approve a permission. It never asks for your passwords. When Claude Code asks permission to run a command, click **Allow**.
 
 Takes about 15–20 minutes. Works best on a Mac running macOS 13 or newer.
 

@@ -104,11 +104,14 @@ For each one that exists:
 
 1. Copy it to a temp folder first (the original is locked while the browser is open):
    `mkdir -p /tmp/histcheck && cp "<path>" /tmp/histcheck/<browser>.db`
-2. Query visit counts by domain for the last 60 days.
-   - **Chromium browsers** (`urls` table; `last_visit_time` is microseconds since 1601-01-01):
+2. Query visit counts by domain for the last 60 days. Count the individual visits in that window. Don't use the `visit_count` column: it's an all-time total, so a site used heavily last year and opened once last month would still rank high.
+   - **Chromium browsers** (`visits` + `urls`; `visit_time` is microseconds since 1601-01-01; transition types 3 and 4 are embedded frames like ads and video players, so skip them):
      ```sql
-     SELECT url, visit_count FROM urls
-     WHERE last_visit_time > (strftime('%s','now','-60 days') + 11644473600) * 1000000;
+     SELECT u.url, COUNT(*) FROM visits v
+     JOIN urls u ON u.id = v.url
+     WHERE v.visit_time > (strftime('%s','now','-60 days') + 11644473600) * 1000000
+       AND (v.transition & 255) NOT IN (3, 4)
+     GROUP BY u.url;
      ```
    - **Safari** (`history_items` + `history_visits`; `visit_time` is seconds since 2001-01-01):
      ```sql
